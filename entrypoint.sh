@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/sh -e
 
 if [ -z "$GIT_URL" ] && ! [ -e "$VOLUME_PATH/.git" ]; then
     echo "GIT_URL not provided and $VOLUME_PATH is empty"
@@ -69,14 +69,16 @@ echo "export VOLUME_PATH=\"$VOLUME_PATH\"" > /etc/update.env.sh
 # Make sure the update works
 /update.sh
 
+touch /var/log/messages
+tail -f /var/log/messages &
+
 touch /var/log/update.log
+tail -f /var/log/update.log &
 echo "$POLLING_FREQ /update.sh >> /var/log/update.log 2>&1" | crontab -
 
 rsyslogd
-cron
+crond
 CRON_PID=$!
-tail -f /var/log/syslog &
-tail -f /var/log/update.log &
 
 set +e
 

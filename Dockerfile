@@ -1,14 +1,8 @@
-# gerrit
-
-FROM debian:latest
+FROM alpine
 
 MAINTAINER Bertrand Roussel <broussel@sierrawireless.com>
 
-RUN \
-  sed -i 's/# \(.*multiverse$\)/\1/g' /etc/apt/sources.list && \
-  apt-get update && \
-      DEBIAN_FRONTEND=noninteractive apt-get -y upgrade && \
-      DEBIAN_FRONTEND=noninteractive apt-get install -y sudo vim-tiny git cron rsyslog procps netcat
+RUN apk add --update --no-cache git dcron rsyslog netcat-openbsd
 
 ADD entrypoint.sh /
 ADD update.sh /
