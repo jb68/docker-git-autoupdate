@@ -65,6 +65,8 @@ if [ -e "/etc/cron.daily/logrotate" ]; then
 fi
 
 echo "export VOLUME_PATH=\"$VOLUME_PATH\"" > /etc/update.env.sh
+echo "export GIT_URL=\"$GIT_URL\"" >> /etc/update.env.sh
+echo "export GIT_BRANCH=\"$GIT_BRANCH\"" >> /etc/update.env.sh
 
 # Make sure the update works
 /update.sh
