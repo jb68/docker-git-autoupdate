@@ -35,13 +35,16 @@ if ! git status; then
 fi
 
 if git fetch; then
-
     # Make sure that there are no changes applied to that repository
     git reset --hard FETCH_HEAD
     if [ $? -ne 0 ]; then
         recover
     fi
-
+else
+    git reset --hard
+    if [ $? -ne 0 ]; then
+        recover
+    fi
 fi
 
 echo -e "[$(date +"%H:%M:%S")] --- End ---\n"
